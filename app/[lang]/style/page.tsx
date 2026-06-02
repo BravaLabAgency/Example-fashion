@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { ExampleFashionDetailPage } from "@/components/example-fashion/ExampleFashionPage";
+import { ExampleFashionStyleGuidePage } from "@/components/example-fashion/ExampleFashionPage";
 import { isLanguage, languages, type Language } from "@/lib/constants";
-import { exampleFashionCopy } from "@/lib/exampleFashionContent";
+import { exampleFashionCopy, exampleFashionEditorialCopy } from "@/lib/exampleFashionContent";
 
 type PageProps = {
   params: {
@@ -17,10 +17,11 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: PageProps): Metadata {
   const lang = isLanguage(params.lang) ? params.lang : "es";
   const copy = exampleFashionCopy[lang];
+  const guide = exampleFashionEditorialCopy[lang].styleGuide;
 
   return {
-    title: `${copy.realLife.label} | ${copy.common.brand}`,
-    description: copy.realLife.intro
+    title: `${guide.title} | ${copy.common.brand}`,
+    description: guide.subtitle
   };
 }
 
@@ -31,5 +32,5 @@ export default function StylePage({ params }: PageProps) {
 
   const lang = params.lang as Language;
 
-  return <ExampleFashionDetailPage lang={lang} copy={exampleFashionCopy[lang]} page="style" />;
+  return <ExampleFashionStyleGuidePage lang={lang} copy={exampleFashionCopy[lang]} />;
 }
